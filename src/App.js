@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GET_PIXABAY_IMAGES } from "./redux/constants/pixabayConstants";
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+  const pixabayStore = useSelector((state) => state.pixabayReducer);
+  useEffect(() => {
+    dispatch({ type: GET_PIXABAY_IMAGES.REQUEST });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {pixabayStore.loading ? "Please Wait While We Load Images" : null}
+      {pixabayStore.error ? pixabayStore.errorMessage : null}
+      {pixabayStore.success
+        ? pixabayStore.data.hits.map((img) => {
+            return <img src={img.previewURL} key={img.id} />;
+          })
+        : null}
     </div>
   );
-}
+};
 
 export default App;
