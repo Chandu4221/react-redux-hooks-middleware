@@ -15,7 +15,7 @@ const App = () => {
       {pixabayStore.error ? pixabayStore.errorMessage : null}
       {pixabayStore.success
         ? pixabayStore.data.hits.map((img) => {
-            return <img src={img.previewURL} key={img.id} />;
+            return <img src={img.previewURL} key={img.id} alt={img.tags} />;
           })
         : null}
     </div>
